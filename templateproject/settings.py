@@ -61,6 +61,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    "apps.templateapp",
     "authentication",
     "corsheaders",
     "django.contrib.admin",
