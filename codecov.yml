@@ -1,0 +1,10 @@
+ignore:
+  - "static/"
+  - "requirements/"
+  - "node_modules/"
+  - "tools/"
+  - "venv/"
+  - "**/management/commands/"
+  - "**/migrations/"
+  - "**/node_modules/"
+  - "manage.py"
