@@ -1,0 +1,79 @@
+services:
+  templateproject-backend:
+    build:
+      context: .
+      dockerfile: ./compose/production/templateproject/backend/Dockerfile
+    image: templateproject-backend
+    command: /start
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.prod
+    expose:
+      - "8000"
+    networks:
+      - templateproject-network
+
+  templateproject-celery_worker_1:
+    build:
+      context: .
+      dockerfile: ./compose/production/templateproject/backend/Dockerfile
+    image: templateproject-celeryworker
+    command: /start-celeryworker
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.prod
+    environment:
+      - CELERY_QUEUE=initialise_ebay
+    networks:
+      - templateproject-network
+
+  templateproject-celery_beat:
+    build:
+      context: .
+      dockerfile: ./compose/production/templateproject/backend/Dockerfile
+    image: templateproject-celerybeat
+    command: /start-celerybeat
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.prod
+    networks:
+      - templateproject-network
+
+  templateproject-flower:
+    build:
+      context: .
+      dockerfile: ./compose/production/templateproject/backend/Dockerfile
+    image: templateproject-flower
+    command: /start-flower
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.prod
+    expose:
+      - "5555"
+    networks:
+      - templateproject-network
+  
+  templateproject-nginx:
+    build:
+      context: .
+      dockerfile: ./compose/production/templateproject/nginx/Dockerfile
+    image: templateproject-nginx
+    volumes:
+      - .:/opt/templateproject
+    ports:
+      - "8080:80"
+    depends_on:
+      - templateproject-backend
+    networks:
+      - templateproject-network
+
+networks:
+  templateproject-network:
+    driver: bridge
+
+volumes:
+  templateproject_postgres_data:

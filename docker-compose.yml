@@ -1,0 +1,112 @@
+services:
+  templateproject-backend:
+    build:
+      context: .
+      dockerfile: ./compose/dev/templateproject/backend/Dockerfile
+    image: templateproject-backend
+    command: /start
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - templateproject-db
+      - templateproject-redis-celery
+      - templateproject-redis-cache
+      - templateproject-redis-session
+    networks:
+      - templateproject-network
+
+  templateproject-db:
+    image: postgres:14.4
+    volumes:
+      - templateproject_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env/.dev
+    ports:
+      - "5433:5432"
+    networks:
+      - templateproject-network
+  templateproject-redis-celery:
+    image: redis:7.0.4
+    expose:
+      - "6379"
+    networks:
+      - templateproject-network
+  templateproject-redis-cache:
+    image: redis:7.0.4
+    expose:
+      - "6379"
+    networks:
+      - templateproject-network
+  templateproject-redis-session:
+    image: redis:7.0.4
+    expose:
+      - "6379"
+    networks:
+      - templateproject-network
+  templateproject-celery_worker_1:
+    build:
+      context: .
+      dockerfile: ./compose/dev/templateproject/backend/Dockerfile
+    image: templateproject-celeryworker
+    command: /start-celeryworker
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.dev
+    environment:
+      - CELERY_QUEUE=default
+    depends_on:
+      - templateproject-db
+      - templateproject-redis-celery
+      - templateproject-redis-cache
+      - templateproject-redis-session
+    networks:
+      - templateproject-network
+  templateproject-celery_beat:
+    build:
+      context: .
+      dockerfile: ./compose/dev/templateproject/backend/Dockerfile
+    image: templateproject-celerybeat
+    command: /start-celerybeat
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.dev
+    depends_on:
+      - templateproject-db
+      - templateproject-redis-celery
+      - templateproject-redis-cache
+      - templateproject-redis-session
+    networks:
+      - templateproject-network
+  templateproject-flower:
+    build:
+      context: .
+      dockerfile: ./compose/dev/templateproject/backend/Dockerfile
+    image: templateproject-flower
+    command: /start-flower
+    volumes:
+      - .:/opt/templateproject
+    env_file:
+      - ./.env/.dev
+    ports:
+      - "5557:5555"
+    depends_on:
+      - templateproject-db
+      - templateproject-redis-celery
+      - templateproject-redis-cache
+      - templateproject-redis-session
+    networks:
+      - templateproject-network
+
+
+volumes:
+  templateproject_postgres_data:
+
+networks:
+  templateproject-network:
+    external: true
