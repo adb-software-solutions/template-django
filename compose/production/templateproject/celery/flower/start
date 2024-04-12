@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+worker_ready() {
+	celery -A templateproject inspect ping
+}
+
+until worker_ready; do
+	echo >&2 'Celery workers not available'
+	sleep 1
+done
+echo >&2 'Celery workers is available'
+
+celery -A templateproject \
+	--broker="${CELERY_BROKER}" \
+	flower \
+	--loglevel=info \
+	--auth_provider="flower.views.auth.GithubLoginHandler" \
+	--auth="${FLOWER_AUTH}" \
+	--oauth2_key="${FLOWER_OAUTH2_KEY}" \
+	--oauth2_secret="${FLOWER_OAUTH2_SECRET}" \
+	--oauth2_redirect_uri="${FLOWER_OAUTH2_REDIRECT_URI}" \
+	--url_prefix="${FLOWER_URL_PREFIX}"

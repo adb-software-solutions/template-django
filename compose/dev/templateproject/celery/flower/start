@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+worker_ready() {
+	celery -A templateproject inspect ping
+}
+
+until worker_ready; do
+	echo >&2 'Celery workers not available'
+	sleep 1
+done
+echo >&2 'Celery workers is available'
+
+celery -A templateproject \
+	--broker="${CELERY_BROKER}" \
+	flower
