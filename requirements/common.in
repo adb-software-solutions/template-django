@@ -4,6 +4,8 @@ tzdata==2024.1
 
 psycopg2==2.9.9
 
+django-ws==1.0.2
+
 # typing_extensions==4.11.0
 
 # Pillow==10.3.0
