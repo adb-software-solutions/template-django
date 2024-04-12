@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+from __future__ import absolute_import, print_function
+
+import argparse
+import re
+
+from lib.custom_check import non_py_rules
+from zulint.command import LinterConfig, add_default_linter_arguments
+from zulint.custom_rules import RuleList
+from zulint.linters import run_command
+
+MYPY = False
+if MYPY:
+    from typing import List, Tuple
+
+
+def run():
+    # type: () -> None
+    parser = argparse.ArgumentParser()
+    # Add a parameter that is passed if running in a git hook
+    parser.add_argument(
+        "--from-hook",
+        action="store_true",
+        help="Indicates that this script is being run from a git hook.",
+    )
+
+    add_default_linter_arguments(parser)
+    args = parser.parse_args()
+
+    linter_config = LinterConfig(args)
+
+    # Linters will be run on these file types.
+    # eg: file_types = ['py', 'html', 'css', 'js']
+    file_types = ["py", "sh", "md", "yaml", "ts", "js", "tsx", "json", "css", "scss"]
+
+    EXCLUDED_FILES: List[str] = ["static/"]
+    by_lang = linter_config.list_files(file_types, exclude=EXCLUDED_FILES)
+
+    command = ["tools/run-mypy", "--quiet"]
+
+    linter_config.external_linter(
+        "css",
+        ["node", "node_modules/.bin/stylelint"],
+        ["css"],
+        fix_arg="--fix",
+        description="Standard CSS style and formatting linter (config: stylelint.config.js)",
+    )
+    linter_config.external_linter(
+        "eslint",
+        [
+            "node",
+            "node_modules/.bin/eslint",
+            "--max-warnings=0",
+            "--cache",
+            "--ext",
+            ".js,.ts",
+        ],
+        ["js", "ts"],
+        fix_arg="--fix",
+        description="Standard JavaScript style and formatting linter (config: .eslintrc).",
+    )
+    linter_config.external_linter(
+        "mypy",
+        command,
+        ["py"],
+        pass_targets=False,
+        description="Static type checker for Python",
+    )
+
+    # pass the --hook argument to commit-message-lint if we're running in a git hook
+    if args.from_hook:
+        linter_config.external_linter(
+            "gitlint",
+            ["tools/commit-message-lint", "--hook"],
+            description="Checks commit messages for common formatting errors (config: .gitlint)",
+        )
+    else:
+        linter_config.external_linter(
+            "gitlint",
+            ["tools/commit-message-lint"],
+            description="Checks commit messages for common formatting errors (config: .gitlint)",
+        )
+
+    linter_config.external_linter(
+        "isort",
+        ["isort"],
+        ["py"],
+        description="Sorts Python import statements",
+        check_arg=["--check-only", "--diff"],
+    )
+    linter_config.external_linter(
+        "prettier",
+        ["node_modules/.bin/prettier", "--check", "--log-level=warn"],
+        ["css", "flow", "js", "json", "md", "ts", "yaml", "yml"],
+        fix_arg=["--write"],
+        description="Formats CSS, JavaScript, YAML",
+    )
+    linter_config.external_linter(
+        "black",
+        ["black"],
+        ["py"],
+        description="Reformats Python code",
+        check_arg=["--check"],
+        suppress_line=lambda line: line == "All done! ✨ 🍰 ✨\n"
+        or re.fullmatch(r"\d+ files? would be left unchanged\.\n", line) is not None
+        or re.fullmatch(r"\d+ file? left unchanged\.\n", line) is not None,
+    )
+    linter_config.external_linter(
+        "shellcheck",
+        ["shellcheck", "-x", "-P", "SCRIPTDIR"],
+        ["sh"],
+        description="Standard shell script linter",
+    )
+    linter_config.external_linter(
+        "shfmt",
+        ["shfmt"],
+        ["sh"],
+        check_arg="-d",
+        fix_arg="-w",
+        description="Formats shell scripts",
+    )
+
+    @linter_config.lint
+    def check_custom_rules():
+        # type: () -> int
+        """Check trailing whitespace for specified files"""
+        trailing_whitespace_rule = RuleList(
+            langs=file_types,
+            rules=[
+                {
+                    "pattern": r"\s+$",
+                    "strip": "\n",
+                    "description": "Fix trailing whitespace",
+                }
+            ],
+        )
+        failed = trailing_whitespace_rule.check(by_lang, verbose=args.verbose)
+        return 1 if failed else 0
+
+    @linter_config.lint
+    def custom_nonpy() -> int:
+        """Runs custom checks for non-python files (config: tools/lib/custom_check.py)"""
+        failed = False
+        for rule in non_py_rules:
+            failed = failed or rule.check(by_lang, verbose=args.verbose)
+        return 1 if failed else 0
+
+    @linter_config.lint
+    def flake8() -> int:
+        """Runs flake8"""
+        return run_command(
+            "flake8",
+            "blue",
+            ["flake8"],
+            suppress_line=lambda line: line.startswith("./static/"),
+        )
+
+    linter_config.do_lint()
+
+
+if __name__ == "__main__":
+    run()
