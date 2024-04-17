@@ -65,9 +65,9 @@ tomli==2.0.1 \
     # via
     #   django-stubs
     #   mypy
-types-psycopg2==2.9.21.20240311 \
-    --hash=sha256:2e137ae2b516ee0dbaab6f555086b6cfb723ba4389d67f551b0336adf4efcf1b \
-    --hash=sha256:722945dffa6a729bebc660f14137f37edfcead5a2c15eb234212a7d017ee8072
+types-psycopg2==2.9.21.20240417 \
+    --hash=sha256:05db256f4a459fb21a426b8e7fca0656c3539105ff0208eaf6bdaf406a387087 \
+    --hash=sha256:644d6644d64ebbe37203229b00771012fb3b3bddd507a129a2e136485990e4f8
     # via -r requirements/mypy.in
 types-pytz==2022.1.2 \
     --hash=sha256:1a8b25c225c5e6bd8468aa9eb45ddd3b337f6716d4072ad0aa4ef1e41478eebc \
