@@ -1,4 +1,4 @@
-Django==5.0.4
+Django==5.0.6
 
 tzdata==2024.1
 
