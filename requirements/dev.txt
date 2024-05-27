@@ -124,13 +124,13 @@ django-coverage-plugin==3.1.0 \
     --hash=sha256:223d34bf92bebadcb8b7b89932480e41c7bd98b44a8156934488fbe7f4a71f99 \
     --hash=sha256:eb0ea8ffdb0db11a02994fc99be6500550efb496c350d709f418ff3d8e553a67
     # via -r requirements/dev.in
-django-stubs==5.0.0 \
-    --hash=sha256:084484cbe16a6d388e80ec687e46f529d67a232f3befaf55c936b3b476be289d \
-    --hash=sha256:b8a792bee526d6cab31e197cb414ee7fa218abd931a50948c66a80b3a2548621
+django-stubs==5.0.2 \
+    --hash=sha256:236bc5606e5607cb968f92b648471f9edaa461a774bc013bf9e6bff8730f6bdf \
+    --hash=sha256:cb0c506cb5c54c64612e4a2ee8d6b913c6178560ec168009fe847c09747c304b
     # via -r requirements/mypy.in
-django-stubs-ext==5.0.0 \
-    --hash=sha256:5bacfbb498a206d5938454222b843d81da79ea8b6fcd1a59003f529e775bc115 \
-    --hash=sha256:8e1334fdf0c8bff87e25d593b33d4247487338aaed943037826244ff788b56a8
+django-stubs-ext==5.0.2 \
+    --hash=sha256:409c62585d7f996cef5c760e6e27ea3ff29f961c943747e67519c837422cad32 \
+    --hash=sha256:8d8efec5a86241266bec94a528fe21258ad90d78c67307f3ae5f36e81de97f12
     # via django-stubs
 django-ws==1.0.2 \
     --hash=sha256:42aa6bccc82658c32e1cdb33b4770e876c9a99e8f058895747f0aeedd3687c4e \
