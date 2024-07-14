@@ -21,14 +21,14 @@ pip-tools==7.4.1
 adamlint==1.0.0
 
 # For spell check linter
-codespell==2.2.6
+codespell==2.3.0
 
 # For post creation dev script
-python-lorem==1.3.0.post1
+python-lorem==1.3.0.post3
 
 # For code coverage
 
-coverage==7.5.1
+coverage==7.6.0
 django-coverage-plugin==3.1.0
 
-flake8==7.0.0
+flake8==7.1.0
