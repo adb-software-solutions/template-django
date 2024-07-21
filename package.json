@@ -25,7 +25,7 @@
     "homepage": "https://github.com/templateorg/templateproject#readme",
     "devDependencies": {
         "@babel/eslint-parser": "^7.24.8",
-        "@typescript-eslint/eslint-plugin": "^7.16.0",
+        "@typescript-eslint/eslint-plugin": "^7.16.1",
         "autoprefixer": "^10.4.19",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-formatjs": "^4.13.3",
@@ -35,6 +35,6 @@
         "postcss": "^8.4.39",
         "prettier-plugin-tailwindcss": "^0.6.5",
         "stylelint-config-standard": "^36.0.1",
-        "tailwindcss": "^3.4.4"
+        "tailwindcss": "^3.4.6"
     }
 }
