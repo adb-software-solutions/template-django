@@ -7,6 +7,6 @@ mypy==1.11.0
 types-psycopg2==2.9.21.20240417
 # types-requests==2.31.0.20240403
 
-django-stubs==5.0.2
+django-stubs==5.0.4
 
 # types-Pillow==10.2.0.20240331
