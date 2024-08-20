@@ -25,7 +25,7 @@
     "homepage": "https://github.com/templateorg/templateproject#readme",
     "devDependencies": {
         "@babel/eslint-parser": "^7.24.8",
-        "@typescript-eslint/eslint-plugin": "^7.16.1",
+        "@typescript-eslint/eslint-plugin": "^8.2.0",
         "autoprefixer": "^10.4.19",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-formatjs": "^4.13.3",
