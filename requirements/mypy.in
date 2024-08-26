@@ -2,7 +2,7 @@
 # /tools/update-locked-requirements to update requirements/dev.txt
 # and requirements/mypy.txt.
 # See requirements/README.md for more detail.
-mypy==1.11.0
+mypy==1.11.2
 
 types-psycopg2==2.9.21.20240417
 # types-requests==2.31.0.20240403
