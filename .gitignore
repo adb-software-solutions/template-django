@@ -180,3 +180,5 @@ schema.json
 .eslintcache
 
 !**/src/lib/
+
+.DS_Store
