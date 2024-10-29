@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "dependencies": {
-        "docker-compose": "^0.24.8",
+        "docker-compose": "^1.1.0",
         "eslint": "^9.13.0",
         "prettier": "^3.3.3",
         "stylelint": "^16.10.0",
