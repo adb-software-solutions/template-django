@@ -1,6 +1,6 @@
 Django==5.1.2
 
-tzdata==2024.1
+tzdata==2024.2
 
 psycopg2==2.9.9
 
