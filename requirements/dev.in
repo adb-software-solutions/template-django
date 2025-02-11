@@ -6,7 +6,7 @@
 -r mypy.in
 
 # For sorting imports
-isort==5.13.2
+isort==6.0.0
 
 # Python reformatter
 black==24.10.0
