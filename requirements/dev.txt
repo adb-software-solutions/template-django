@@ -146,9 +146,9 @@ django-ws==1.0.2 \
     --hash=sha256:42aa6bccc82658c32e1cdb33b4770e876c9a99e8f058895747f0aeedd3687c4e \
     --hash=sha256:6df0409bc145bdff3dc2e966fd0d437752085d4743f8ceb9be6e623ebf9d403e
     # via -r requirements/common.in
-flake8==7.1.1 \
-    --hash=sha256:049d058491e228e03e67b390f311bbf88fce2dbaa8fa673e7aea87b7198b8d38 \
-    --hash=sha256:597477df7860daa5aa0fdd84bf5208a043ab96b8e96ab708770ae0364dd03213
+flake8==7.1.2 \
+    --hash=sha256:1cbc62e65536f65e6d754dfe6f1bada7f5cf392d6f5db3c2b85892466c3e7c1a \
+    --hash=sha256:c586ffd0b41540951ae41af572e6790dbd49fc12b3aa2541685d253d9bd504bd
     # via -r requirements/dev.in
 gitlint-core==0.19.1 \
     --hash=sha256:7bf977b03ff581624a9e03f65ebb8502cc12dfaa3e92d23e8b2b54bbdaa29992 \
