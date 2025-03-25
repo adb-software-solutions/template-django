@@ -31,7 +31,7 @@
         "eslint-plugin-formatjs": "^5.1.5",
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-no-jquery": "^3.0.2",
-        "eslint-plugin-unicorn": "^56.0.0",
+        "eslint-plugin-unicorn": "^58.0.0",
         "postcss": "^8.4.47",
         "prettier-plugin-tailwindcss": "^0.6.8",
         "stylelint-config-standard": "^36.0.1",
